@@ -32,7 +32,7 @@ lib.callback.register('pegos_boss_menu:server:getMarkers', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerJob = xPlayer.getJob()
 
-    if playerJob.grade == 0 then return true end
+    if playerJob.grade == Config.BossGrade then return true end
 end)
 
 RegisterNetEvent('pegos_boss_menu:server:promote', function(data)
