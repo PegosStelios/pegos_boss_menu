@@ -1,4 +1,4 @@
-RegisterNetEvent('pegos_boss_menu:server:promoteMenu', function(args)
+RegisterNetEvent('pegos_boss_menu:client:promoteMenu', function(args)
     args = lib.callback.await('pegos_boss_menu:server:getGrades')
 
     local options = {}
@@ -20,14 +20,14 @@ RegisterNetEvent('pegos_boss_menu:server:promoteMenu', function(args)
     end
 
     lib.registerContext({
-      id = 'event_menu',
+      id = 'event_promote_menu',
       title = 'Select Rank',
       description = 'The member will aquire the selected rank',
       menu = 'boss_menu',
       options = options
     })
 
-    lib.showContext('event_menu')
+    lib.showContext('event_promote_menu')
 end)
 
 lib.registerContext({
@@ -37,8 +37,8 @@ lib.registerContext({
     {
         title = 'Promote',
         description = 'Promote a member',
-        icon = 'check',
-        event = 'pegos_boss_menu:server:promoteMenu',
+        icon = 'fa-solid fa-circle-up',
+        event = 'pegos_boss_menu:client:promoteMenu',
         arrow = true,
         args = {
           grades = nil
@@ -47,7 +47,7 @@ lib.registerContext({
       {
         title = 'Recruit',
         description = 'Recruit a member',
-        icon = 'plus',
+        icon = 'fa-solid fa-users',
         onSelect = function()
             local input = lib.inputDialog('Recruit', {
                 {type = 'number', label = 'ID', description = 'Player ID', icon = 'hashtag', required = true},
@@ -79,44 +79,24 @@ lib.registerContext({
     }
 })
 
-local uiText = "Press [E] to open boss menu"
-
-function createPointAndMarker(location)
-    local point = lib.points.new({
-        coords = location.coords,
-        distance = location.distance,
-    })
-
-    local marker = lib.marker.new({
-        coords = location.coords,
-        type = location.type,
-    })
-
-    function point:nearby()
-        marker:draw()
-
-        if self.currentDistance < 1.5 then
-            if not lib.isTextUIOpen() then
-                lib.showTextUI(uiText)
-            end
-
-            if IsControlJustPressed(0, 51) then
-                lib.showContext('boss_menu')
-            end
-        else
-            local isOpen, currentText = lib.isTextUIOpen()
-            if isOpen and currentText == uiText then
-                lib.hideTextUI()
-            end
-        end
-    end
-end
-
 for _, location in ipairs(Config.Locations) do
+    exports.ox_target:addSphereZone({
+        name = location.name .. "_boss_menu",
+        coords = location.coords,
+        debug = Config.Debug,
+        radius = 1,
+        options = {
+            {
+                icon = 'fa-solid fa-user',
+                groups = {
+                    [location.name] = Config.BossGrade
+                },
+                label = 'Boss Menu',
+                onSelect = function()
+                    lib.showContext('boss_menu')
+                end,
+            }
+        }
+    })
 
-    local markers = lib.callback.await('pegos_boss_menu:server:getMarkers')
-
-    if markers then
-        createPointAndMarker(location)
-    end
 end
