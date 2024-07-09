@@ -11,3 +11,4 @@ A boss menu I made for my server, liked writing it so much I'm going to share it
 ### Dependencies
 - es_extended
 - ox_lib
+- ox_target
