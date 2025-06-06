@@ -49,7 +49,7 @@ RegisterNetEvent('pegos_boss_menu:server:promote', function(data)
         return
     end
 
-    if job.grade ~= Config.BossGrade then
+    if job.name ~= Config.BossGradeName then
         print('ban')
         return
     end
@@ -89,7 +89,7 @@ RegisterNetEvent('pegos_boss_menu:server:recruit', function(data)
         return
     end
 
-    if job.grade ~= Config.BossGrade then
+    if job.name ~= Config.BossGradeName then
         print('ban - grade')
         return
     end
@@ -123,7 +123,7 @@ RegisterNetEvent('pegos_boss_menu:server:dismiss', function(data)
         return
     end
 
-    if job.grade ~= Config.BossGrade then
+    if job.name ~= Config.BossGradeName then
         print('ban - grade')
         return
     end

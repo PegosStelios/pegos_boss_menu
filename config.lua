@@ -1,6 +1,6 @@
 Config = {}
 
-Config.BossGrade = 0
+Config.BossGradeName = 'boss'
 Config.UnemployedJobName = 'unemployed'
 Config.UnemployedGrade = 1
 Config.Debug = true
